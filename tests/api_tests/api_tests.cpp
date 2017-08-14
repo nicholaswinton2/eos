@@ -336,17 +336,17 @@ BOOST_FIXTURE_TEST_CASE(test_all, testing_fixture)
          fc::assert_exception, is_assert_exception );
 
       //Test db (i64)
-      const auto& idx = chain_db.get_index<key_value_index, by_scope_key>();
+      const auto& idx = chain_db.get_index<key_value_index, by_scope_primary>();
 
       BOOST_CHECK_MESSAGE( CALL_TEST_FUNCTION( TEST_METHOD("test_db", "key_i64_general"), {}, {} ) == WASM_TEST_PASS, "test_db::key_i64_general()" );
       BOOST_CHECK_EQUAL( std::distance(idx.begin(), idx.end()) , 4);
       
       auto itr = idx.lower_bound( boost::make_tuple( N(testapi), N(testapi), N(test_table)) );
 
-      BOOST_CHECK_EQUAL((uint64_t)itr->key, N(alice)); ++itr;
-      BOOST_CHECK_EQUAL((uint64_t)itr->key, N(bob)); ++itr;
-      BOOST_CHECK_EQUAL((uint64_t)itr->key, N(carol)); ++itr;
-      BOOST_CHECK_EQUAL((uint64_t)itr->key, N(dave));
+      BOOST_CHECK_EQUAL((uint64_t)itr->primary_key, N(alice)); ++itr;
+      BOOST_CHECK_EQUAL((uint64_t)itr->primary_key, N(bob)); ++itr;
+      BOOST_CHECK_EQUAL((uint64_t)itr->primary_key, N(carol)); ++itr;
+      BOOST_CHECK_EQUAL((uint64_t)itr->primary_key, N(dave));
 
       BOOST_CHECK_MESSAGE( CALL_TEST_FUNCTION( TEST_METHOD("test_db", "key_i64_remove_all"), {}, {} ) == WASM_TEST_PASS, "test_db::key_i64_remove_all()" );
       BOOST_CHECK_EQUAL( std::distance(idx.begin(), idx.end()) , 0);
